@@ -8,6 +8,8 @@ parenthesized list of formal parameters. The statements that form the body of th
 the next line, and must be indented.
 """
 
+import pytest
+
 
 def fibonacci_function_example(number_limit):
     """Generate a Fibonacci series up to number_limit.
@@ -121,3 +123,54 @@ def test_function_definition():
     greet_with_closure = compose_greet_func_with_closure('John')
 
     assert greet_with_closure() == 'Hello there, John!'
+
+
+def test_function_parameters_and_return_values():
+    """Parameters and return values."""
+
+    # A parameter can have a default value; the caller may then leave it out.
+    def describe_rectangle(width, height=1):
+        area = width * height
+        perimeter = 2 * (width + height)
+        # Returning several values separated by commas actually returns one tuple.
+        return area, perimeter
+
+    assert describe_rectangle(3, 4) == (12, 14)
+    assert describe_rectangle(3) == (3, 8)  # height falls back to its default value 1
+    assert describe_rectangle(height=2, width=5) == (10, 14)  # keyword arguments, any order
+
+    # The returned tuple can be unpacked into separate variables.
+    area, perimeter = describe_rectangle(2, 3)
+    assert area == 6
+    assert perimeter == 10
+
+    # A function without a return statement returns None.
+    def do_nothing():
+        pass
+
+    assert do_nothing() is None
+
+
+def test_function_input_validation():
+    """Simple input validation.
+
+    A function can check its arguments and raise an exception when they are not valid, instead
+    of silently returning a wrong result.
+    """
+
+    def average(numbers):
+        if not isinstance(numbers, list):
+            raise TypeError('numbers must be a list')
+        if not numbers:
+            raise ValueError('cannot compute the average of an empty list')
+        return sum(numbers) / len(numbers)
+
+    assert average([2, 4, 6]) == 4
+    assert average([5]) == 5
+
+    # match= also checks the error message, so the test proves which check failed.
+    with pytest.raises(ValueError, match='empty list'):
+        average([])
+
+    with pytest.raises(TypeError, match='must be a list'):
+        average('2, 4, 6')
