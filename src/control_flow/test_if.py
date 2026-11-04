@@ -26,3 +26,31 @@ def test_if_statement():
         conclusion = 'Number bigger than or equal to one'
 
     assert conclusion == 'Number bigger than or equal to one'
+
+
+def test_if_with_multiple_elif_branches():
+    """IF statement with several elif branches.
+
+    The conditions are checked from top to bottom and only the first branch whose condition is
+    true is executed, so the order of the branches matters.
+    """
+
+    def letter_grade(score):
+        if score >= 90:
+            grade = 'A'
+        elif score >= 80:
+            grade = 'B'
+        elif score >= 70:
+            grade = 'C'
+        elif score >= 60:
+            grade = 'D'
+        else:
+            grade = 'F'
+        return grade
+
+    assert letter_grade(95) == 'A'
+    assert letter_grade(90) == 'A'  # a boundary value belongs to the higher grade
+    assert letter_grade(85) == 'B'
+    assert letter_grade(72) == 'C'
+    assert letter_grade(60) == 'D'
+    assert letter_grade(59) == 'F'
