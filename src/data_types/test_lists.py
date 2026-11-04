@@ -336,3 +336,34 @@ def test_nested_list_comprehensions():
         (3, 7, 11),
         (4, 8, 12),
     ]
+
+
+def test_list_sorting():
+    """Sorting lists.
+
+    list.sort() sorts the list in place and returns None, while the built-in sorted() function
+    returns a new sorted list and leaves the original one untouched. Both accept the optional
+    key and reverse arguments.
+    """
+
+    numbers = [5, 2, 9, 1, 7]
+
+    # sorted() returns a new list; the original list keeps its order.
+    assert sorted(numbers) == [1, 2, 5, 7, 9]
+    assert numbers == [5, 2, 9, 1, 7]
+
+    # list.sort() changes the list itself and returns None.
+    assert numbers.sort() is None
+    assert numbers == [1, 2, 5, 7, 9]
+
+    # reverse=True sorts from the largest to the smallest item.
+    assert sorted(numbers, reverse=True) == [9, 7, 5, 2, 1]
+
+    # key is a function that is applied to every item before the items are compared.
+    words = ['banana', 'apple', 'Cherry', 'kiwi']
+    assert sorted(words) == ['Cherry', 'apple', 'banana', 'kiwi']  # uppercase letters come first
+    assert sorted(words, key=str.lower) == ['apple', 'banana', 'Cherry', 'kiwi']
+
+    # Sorting is stable: items with equal keys keep their original order ('banana' before
+    # 'Cherry', both have 6 letters).
+    assert sorted(words, key=len) == ['kiwi', 'apple', 'banana', 'Cherry']
