@@ -8,6 +8,8 @@ parenthesized list of formal parameters. The statements that form the body of th
 the next line, and must be indented.
 """
 
+import pytest
+
 
 def fibonacci_function_example(number_limit):
     """Generate a Fibonacci series up to number_limit.
@@ -147,3 +149,27 @@ def test_function_parameters_and_return_values():
         pass
 
     assert do_nothing() is None
+
+
+def test_function_input_validation():
+    """Simple input validation.
+
+    A function can check its arguments and raise an exception when they are not valid, instead
+    of silently returning a wrong result.
+    """
+
+    def average(numbers):
+        if not isinstance(numbers, list):
+            raise TypeError('numbers must be a list')
+        if not numbers:
+            raise ValueError('cannot compute the average of an empty list')
+        return sum(numbers) / len(numbers)
+
+    assert average([2, 4, 6]) == 4
+    assert average([5]) == 5
+
+    with pytest.raises(ValueError):
+        average([])
+
+    with pytest.raises(TypeError):
+        average('2, 4, 6')
