@@ -121,3 +121,29 @@ def test_function_definition():
     greet_with_closure = compose_greet_func_with_closure('John')
 
     assert greet_with_closure() == 'Hello there, John!'
+
+
+def test_function_parameters_and_return_values():
+    """Parameters and return values."""
+
+    # A parameter can have a default value; the caller may then leave it out.
+    def describe_rectangle(width, height=1):
+        area = width * height
+        perimeter = 2 * (width + height)
+        # Returning several values separated by commas actually returns one tuple.
+        return area, perimeter
+
+    assert describe_rectangle(3, 4) == (12, 14)
+    assert describe_rectangle(3) == (3, 8)  # height falls back to its default value 1
+    assert describe_rectangle(height=2, width=5) == (10, 14)  # keyword arguments, any order
+
+    # The returned tuple can be unpacked into separate variables.
+    area, perimeter = describe_rectangle(2, 3)
+    assert area == 6
+    assert perimeter == 10
+
+    # A function without a return statement returns None.
+    def do_nothing():
+        pass
+
+    assert do_nothing() is None
