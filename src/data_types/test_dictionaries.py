@@ -20,6 +20,8 @@ Placing a comma-separated list of key:value pairs within the braces adds initial
 to the dictionary; this is also the way dictionaries are written on output.
 """
 
+import pytest
+
 
 def test_dictionary():
     """Dictionary"""
@@ -77,3 +79,56 @@ def test_dictionary():
     assert dictionary_for_string_keys['sape'] == 4139
     assert dictionary_for_string_keys['guido'] == 4127
     assert dictionary_for_string_keys['jack'] == 4098
+
+
+def test_dictionary_retrieval():
+    """Retrieving entries from a dictionary."""
+
+    capitals = {'Canada': 'Ottawa', 'France': 'Paris', 'Japan': 'Tokyo'}
+
+    # Square brackets raise a KeyError when the key does not exist.
+    with pytest.raises(KeyError):
+        assert capitals['Italy'] == 'Rome'
+
+    # get() returns None, or the given default value, instead of raising an error.
+    assert capitals.get('Italy') is None
+    assert capitals.get('Italy', 'unknown') == 'unknown'
+    assert capitals.get('Japan', 'unknown') == 'Tokyo'
+
+    # keys(), values() and items() return views of the dictionary, in insertion order.
+    assert list(capitals.keys()) == ['Canada', 'France', 'Japan']
+    assert list(capitals.values()) == ['Ottawa', 'Paris', 'Tokyo']
+    assert list(capitals.items()) == [
+        ('Canada', 'Ottawa'),
+        ('France', 'Paris'),
+        ('Japan', 'Tokyo'),
+    ]
+
+    # items() is the usual way to loop over the keys and the values together.
+    sentences = [city + ' is the capital of ' + country for country, city in capitals.items()]
+    assert sentences[0] == 'Ottawa is the capital of Canada'
+
+
+def test_dictionary_update_and_removal():
+    """Adding, updating and removing entries."""
+
+    stock = {'apples': 10, 'pears': 4}
+
+    # update() adds the new keys and overwrites the values of the existing ones.
+    stock.update({'pears': 6, 'plums': 12})
+    assert stock == {'apples': 10, 'pears': 6, 'plums': 12}
+
+    # setdefault() inserts the key only when it is missing, and returns the current value.
+    assert stock.setdefault('kiwis', 0) == 0
+    assert stock.setdefault('apples', 0) == 10  # existing value is kept
+    assert stock == {'apples': 10, 'pears': 6, 'plums': 12, 'kiwis': 0}
+
+    # pop() removes a key and returns its value. A default value avoids the KeyError.
+    assert stock.pop('plums') == 12
+    assert stock.pop('plums', None) is None
+    with pytest.raises(KeyError):
+        stock.pop('plums')
+
+    # popitem() removes and returns the last inserted pair (LIFO order).
+    assert stock.popitem() == ('kiwis', 0)
+    assert stock == {'apples': 10, 'pears': 6}
