@@ -367,3 +367,26 @@ def test_list_sorting():
     # Sorting is stable: items with equal keys keep their original order ('banana' before
     # 'Cherry', both have 6 letters).
     assert sorted(words, key=len) == ['kiwi', 'apple', 'banana', 'Cherry']
+
+
+def test_list_filtering_and_slicing():
+    """Filtering and slicing lists."""
+
+    numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    # A list comprehension with an if clause keeps only the items that match the condition.
+    even_numbers = [number for number in numbers if number % 2 == 0]
+    assert even_numbers == [0, 2, 4, 6, 8]
+
+    # The built-in filter() does the same with a function. It returns an iterator, so we
+    # wrap it in list() to get a list.
+    odd_numbers = list(filter(lambda number: number % 2 == 1, numbers))
+    assert odd_numbers == [1, 3, 5, 7, 9]
+
+    # A slice can take a third value, the step: list[start:stop:step].
+    assert numbers[1:8:3] == [1, 4, 7]
+    assert numbers[::-1] == [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]  # a negative step reverses the list
+
+    # Slicing never raises an IndexError, even when the bounds are out of range.
+    assert numbers[8:100] == [8, 9]
+    assert numbers[100:] == []
