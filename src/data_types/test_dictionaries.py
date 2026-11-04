@@ -20,6 +20,8 @@ Placing a comma-separated list of key:value pairs within the braces adds initial
 to the dictionary; this is also the way dictionaries are written on output.
 """
 
+import pytest
+
 
 def test_dictionary():
     """Dictionary"""
@@ -77,3 +79,31 @@ def test_dictionary():
     assert dictionary_for_string_keys['sape'] == 4139
     assert dictionary_for_string_keys['guido'] == 4127
     assert dictionary_for_string_keys['jack'] == 4098
+
+
+def test_dictionary_retrieval():
+    """Retrieving entries from a dictionary."""
+
+    capitals = {'Canada': 'Ottawa', 'France': 'Paris', 'Japan': 'Tokyo'}
+
+    # Square brackets raise a KeyError when the key does not exist.
+    with pytest.raises(KeyError):
+        assert capitals['Italy'] == 'Rome'
+
+    # get() returns None, or the given default value, instead of raising an error.
+    assert capitals.get('Italy') is None
+    assert capitals.get('Italy', 'unknown') == 'unknown'
+    assert capitals.get('Japan', 'unknown') == 'Tokyo'
+
+    # keys(), values() and items() return views of the dictionary, in insertion order.
+    assert list(capitals.keys()) == ['Canada', 'France', 'Japan']
+    assert list(capitals.values()) == ['Ottawa', 'Paris', 'Tokyo']
+    assert list(capitals.items()) == [
+        ('Canada', 'Ottawa'),
+        ('France', 'Paris'),
+        ('Japan', 'Tokyo'),
+    ]
+
+    # items() is the usual way to loop over the keys and the values together.
+    sentences = [city + ' is the capital of ' + country for country, city in capitals.items()]
+    assert sentences[0] == 'Ottawa is the capital of Canada'
