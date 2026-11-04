@@ -80,3 +80,4 @@ def test_nested_if():
     assert ticket_price(20, True) == 8
     assert ticket_price(70, False) == 6
     assert ticket_price(30, False) == 12
+    assert ticket_price(18, False) == 12  # 18 is already an adult: >= includes 18
