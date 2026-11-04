@@ -168,8 +168,9 @@ def test_function_input_validation():
     assert average([2, 4, 6]) == 4
     assert average([5]) == 5
 
-    with pytest.raises(ValueError):
+    # match= also checks the error message, so the test proves which check failed.
+    with pytest.raises(ValueError, match='empty list'):
         average([])
 
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match='must be a list'):
         average('2, 4, 6')
