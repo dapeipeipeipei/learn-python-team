@@ -54,3 +54,29 @@ def test_if_with_multiple_elif_branches():
     assert letter_grade(72) == 'C'
     assert letter_grade(60) == 'D'
     assert letter_grade(59) == 'F'
+
+
+def test_nested_if():
+    """Nested IF statements.
+
+    An if statement can be placed inside another one. The inner condition is only checked when
+    the outer condition is true.
+    """
+
+    def ticket_price(age, is_student):
+        if age >= 18:
+            if is_student:
+                price = 8
+            elif age >= 65:
+                price = 6
+            else:
+                price = 12
+        else:
+            price = 5
+        return price
+
+    assert ticket_price(10, False) == 5
+    assert ticket_price(10, True) == 5  # the inner condition is never checked for children
+    assert ticket_price(20, True) == 8
+    assert ticket_price(70, False) == 6
+    assert ticket_price(30, False) == 12
