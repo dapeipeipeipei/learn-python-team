@@ -107,3 +107,28 @@ def test_dictionary_retrieval():
     # items() is the usual way to loop over the keys and the values together.
     sentences = [city + ' is the capital of ' + country for country, city in capitals.items()]
     assert sentences[0] == 'Ottawa is the capital of Canada'
+
+
+def test_dictionary_update_and_removal():
+    """Adding, updating and removing entries."""
+
+    stock = {'apples': 10, 'pears': 4}
+
+    # update() adds the new keys and overwrites the values of the existing ones.
+    stock.update({'pears': 6, 'plums': 12})
+    assert stock == {'apples': 10, 'pears': 6, 'plums': 12}
+
+    # setdefault() inserts the key only when it is missing, and returns the current value.
+    assert stock.setdefault('kiwis', 0) == 0
+    assert stock.setdefault('apples', 0) == 10  # existing value is kept
+    assert stock == {'apples': 10, 'pears': 6, 'plums': 12, 'kiwis': 0}
+
+    # pop() removes a key and returns its value. A default value avoids the KeyError.
+    assert stock.pop('plums') == 12
+    assert stock.pop('plums', None) is None
+    with pytest.raises(KeyError):
+        stock.pop('plums')
+
+    # popitem() removes and returns the last inserted pair (LIFO order).
+    assert stock.popitem() == ('kiwis', 0)
+    assert stock == {'apples': 10, 'pears': 6}
