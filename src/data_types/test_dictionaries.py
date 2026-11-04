@@ -94,6 +94,7 @@ def test_dictionary_retrieval():
     assert capitals.get('Italy') is None
     assert capitals.get('Italy', 'unknown') == 'unknown'
     assert capitals.get('Japan', 'unknown') == 'Tokyo'
+    assert 'Italy' not in capitals  # get() never adds the missing key
 
     # keys(), values() and items() return views of the dictionary, in insertion order.
     assert list(capitals.keys()) == ['Canada', 'France', 'Japan']
