@@ -229,3 +229,11 @@ flake8 ./src --statistics --show-source --count
 ## Author
 
 - [@trekhleb](https://trekhleb.dev)
+
+## Team maintenance (COMP 354)
+
+This copy of learn-python is maintained by a four-person team for the COMP 354 software
+configuration management assignment. Contributors work on their own branches and send pull
+requests to `main`; every pull request is reviewed by another team member before it is merged.
+
+Run the tests of one topic with `python -m pytest src/data_types/test_lists.py -v`.
