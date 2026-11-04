@@ -356,6 +356,10 @@ def test_list_sorting():
     assert numbers.sort() is None
     assert numbers == [1, 2, 5, 7, 9]
 
+    # sorted() accepts any iterable, but the result is always a list.
+    assert sorted('cab') == ['a', 'b', 'c']
+    assert sorted((3, 1, 2)) == [1, 2, 3]
+
     # reverse=True sorts from the largest to the smallest item.
     assert sorted(numbers, reverse=True) == [9, 7, 5, 2, 1]
 
