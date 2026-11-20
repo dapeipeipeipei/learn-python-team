@@ -15,6 +15,7 @@ def test_if_statement():
 
     number = 15
     conclusion = ''
+    digits = ''
 
     if number < 0:
         conclusion = 'Number is less than zero'
@@ -24,5 +25,11 @@ def test_if_statement():
         conclusion = 'Number is greater than zero but less than one'
     else:
         conclusion = 'Number bigger than or equal to one'
+        # Nested condition: count the digits of a number that is at least one.
+        if number >= 10:
+            digits = 'two or more'
+        else:
+            digits = 'one'
 
+    assert digits == 'two or more'
     assert conclusion == 'Number bigger than or equal to one'
